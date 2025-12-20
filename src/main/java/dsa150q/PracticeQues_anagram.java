@@ -1,5 +1,6 @@
 package main.java.dsa150q;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -7,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class PracticeQues_anagram {
     public static void main(String[] args) {
-        String s1="iSilent";
+        String s1="Silent";
         String s2="Listeni";
         System.out.println(isAnagram(s1,s2));
         System.out.println(isAnagramOptimal(s1,s2));
@@ -34,25 +35,6 @@ public class PracticeQues_anagram {
         }
         return true;
     }
-
-    private static boolean isAnagramOptimal(String s1,String s2){
-        s1=s1.replaceAll("\\s", "").toLowerCase();
-        s2=s2.replaceAll("\\s", "").toLowerCase();
-
-        if(s1.length()!= s2.length())
-            return false;
-
-        int[] count = new int[26];
-        for(int i=0;i<s1.length();i++){
-            count[s1.charAt(i)-'a']++;
-            count[s2.charAt(i)-'a']--;
-        }
-        for(int i:count)
-            if(i!=0)
-                return false;
-        return true;
-    }
-
     private static boolean isAnagramStream(String s1,String s2){
         s1=s1.replaceAll("\\s", "").toLowerCase();
         s2=s2.replaceAll("\\s", "").toLowerCase();
@@ -69,5 +51,23 @@ public class PracticeQues_anagram {
         if(s1Chars.equals(s2Chars))
             return true;
         else return false;
+    }
+    private static boolean isAnagramOptimal(String s1,String s2){
+        s1= s1.replaceAll("\\s", "").toLowerCase();
+        s2= s2.replaceAll("\\s", "").toLowerCase();
+
+        if(s1.length()!=s2.length())
+            return false;
+
+        int[] occ = new int[26]; //Its only used if your string has alphabets.
+        for(int i =0;i<s1.length();i++){
+            occ[s1.charAt(i)-'a']++;
+            occ[s2.charAt(i)-'a']--;
+        }
+//        return Arrays.stream(occ).noneMatch(x -> x != 0);
+
+        for (int x : occ)//loops are faster than stream
+            if (x != 0) return false;
+        return true;
     }
 }
