@@ -36,6 +36,17 @@ public class DeadLock_Starvation extends Thread {
     * Synchronized keyword is only reason for dead lock situation, hence while using synchronized key word we have to take special care
     * there are no resolution for dead lock but several prevention techniques are available.
     *
+    * ****************
+    * IN above 2 classes if any once last method don't have synchronized then we won't face dead lock situation,
+    * need special care while using synchronized key word.
+    *
+    * Dead lock :
+    * long waiting of a thread waiting never ends is called dead lock.
+    *------------------------------------------------------------------------------------------------
+    * Starvation:
+    * long waiting of a thread,waiting ends at certain point is called starvation.
+    * Eg: we have 1cr threads, In them 1 thread has priority as 1 and remaining threads has priority as 10
+    * which means that 1 thread should wait until all high priority threads got processed.
     * */
     A a = new A();
     B b = new B();
