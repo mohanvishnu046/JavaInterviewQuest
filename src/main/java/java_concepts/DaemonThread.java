@@ -21,15 +21,80 @@ public class DaemonThread {
     * if parent thread is non-daemon then child thread also non-daemon
     *
     * For main, its impossible to change daemon nature of main thread. because its already started by JVM at beginning
+    *
+    *
+    * Daemon threads will stop execution after termination of all user threads(non-daemon threads) includes main thread.
     * */
     public static void main(String[] args) {
 
-        System.out.println(Thread.currentThread().isDaemon());
-        Thread t= new Thread();
+        System.out.println("Main thread daemon status: "+Thread.currentThread().isDaemon());
+        System.out.println("Main thread before calling child thread");
+        Thread t= new Thread(new MyThreadDaemon());
 //        Thread.currentThread().setDaemon(true);// Throws IllegalThreadStateException
-        System.out.println(t.isDaemon());
-        t.setDaemon(true);
-        System.out.println(t.isDaemon());
+        System.out.println("Child thread daemon status: "+t.isDaemon());
+        t.setDaemon(true);// By setting setDaemon we can make a thread as daemon.
+        /*
+        *If above line is commented then both threads are non- daemon and they will execute until there task complete.
+        *If above line is not commented then daemon and non daemon which cause daemon thread execute until non-daemon terminates.
+        *
+        * */
+        System.out.println("Child thread daemon status: "+t.isDaemon());
+        t.start();
+        System.out.println("Main thread after calling child thread");
+        // Once main thread finish its execution tasks of daemon threads will be stopped.
 
+
+    }
+
+
+    void learnThread(){
+        Thread t = new Thread();
+        t.stop();
+
+        /* how to stop a thread:
+        * used to stop a thread execution, Immediatly thread entred into dead state.
+        * it was deprecated method not recomanded to use.
+        *
+        * How to suspend/resume of a thread:
+        **/
+        t.suspend();// thread goes to suspend state
+        t.resume();//thread goes to runnable state  from suspend state
+
+
+        /*
+        * yield() gives changes to other waiting threads to run, which are having priority same or high.
+        * join() it makes the current thread to wait state until other thread to complete.
+        * sleep() running thread goes to sleeping state until time expire or interrupted.
+        *
+        *
+        * wait() thread goes to waiting state until it got notify
+        * then it going to wait until it got lock of particular obj
+        * then it goes to runnable
+        *
+        * here sleep, join and wait can also be interrupted by interrupt();
+        * sleep and wait can goes to runnable state after time expire.
+        *
+        * stop() makes the current thread dead
+        *
+        * suspend() makes the thread goes to suspend state
+        *
+        * resume() makes the thread goes to runnable from suspend state.
+        *
+        * */
+        t.interrupt();
+    }
+
+}
+class  MyThreadDaemon implements Runnable{
+    @Override
+    public void run() {
+        for(int i=0;i<10;i++) {
+            System.out.println("Child Thread : " + i + " : " + Thread.currentThread().getName());
+            try {
+                Thread.sleep(2000);// add some latency to mimics real time..
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }
