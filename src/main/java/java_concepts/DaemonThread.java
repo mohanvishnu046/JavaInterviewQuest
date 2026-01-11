@@ -43,7 +43,6 @@ public class DaemonThread {
         System.out.println("Main thread after calling child thread");
         // Once main thread finish its execution tasks of daemon threads will be stopped.
 
-
     }
 
 
