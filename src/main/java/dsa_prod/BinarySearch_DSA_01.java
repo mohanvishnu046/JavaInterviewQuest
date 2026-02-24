@@ -1,7 +1,7 @@
 package main.java.dsa_prod;
 
 public class BinarySearch_DSA_01 {
-    //Binary Search is O(nlogn) which optimized  searching a target value in sorting array.
+    //Binary Search is O(logn) which optimized  searching a target value in sorting array.
     public static void main(String[] args) {
         int[] array = {2,5,7,9,10,11,16,19,26,57,89};
         int target = 89;
