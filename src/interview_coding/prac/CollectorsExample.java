@@ -20,6 +20,19 @@ public class CollectorsExample {
             new Employee("NON-IT","Mahesh", 7000),
             new Employee("IT","David", 8000)
         );
+
+        //get names of 2nd highest salary of each department.
+        Map<String, Optional<String>> stringOptionalMap = employees.stream().collect(Collectors.groupingBy(Employee::getDepartmentName
+                , Collectors.collectingAndThen(Collectors.toList()
+                        , list -> list.stream()
+                                .sorted(Comparator.comparing(Employee::getSalary).reversed())
+                                .skip(1)
+                                .findFirst()
+                                .map(Employee::getName)
+                )
+        ));
+        System.out.println(stringOptionalMap);
+
 //        // 1. Collect to List
 //        List<Employee> list = employees.stream()
 //                .collect(Collectors.toList());
@@ -92,7 +105,7 @@ public class CollectorsExample {
                                 list -> list.stream()
                                         .map(Employee::getSalary)
                                         .sorted(Comparator.reverseOrder())
-                                        .skip(2)
+                                        .skip(1)//skip first one.
                                         .findFirst()
                         )
                 ));
